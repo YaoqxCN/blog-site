@@ -1,0 +1,60 @@
+---
+import type { PostData } from "../interface/data";
+import BaseCard from "./BaseCard.astro";
+
+const {
+  title,
+  description,
+  image,
+  pubDate,
+  badge,
+  categories,
+  tags,
+  word,
+  time,
+  url,
+  target = "_self",
+} = Astro.props as PostData & { target?: string };
+---
+
+<a href={url} target={target} rel="noreferrer" class="block no-underline">
+  <BaseCard>
+    <article class="flex flex-col gap-3 md:flex-row">
+      {image && (
+        <div class="md:w-48 shrink-0">
+          <img src={image} alt={title} class="rounded-xl object-cover w-full h-full max-h-40" loading="lazy" />
+        </div>
+      )}
+      <div class="flex-1 space-y-2">
+        <header class="space-y-1">
+          <h2 class="text-xl font-semibold line-clamp-2">{title}</h2>
+          {description && <p class="text-sm text-base-content/70 line-clamp-2">{description}</p>}
+        </header>
+
+        <div class="flex flex-wrap items-center gap-2 text-xs text-base-content/60">
+          {pubDate && <span>{pubDate.toLocaleDateString?.() ?? pubDate}</span>}
+          {badge && <span class="badge badge-primary badge-sm">{badge}</span>}
+          {word && <span>{word}</span>}
+          {time && <span>{time}</span>}
+        </div>
+
+        <div class="flex flex-wrap gap-1">
+          {categories &&
+            categories.map((cat) => (
+              <span class="badge badge-ghost badge-sm" data-category={cat}>
+                {cat}
+              </span>
+            ))}
+          {tags &&
+            tags.map((tag) => (
+              <span class="badge badge-outline badge-sm" data-tag={tag}>
+                #{tag}
+              </span>
+            ))}
+        </div>
+      </div>
+    </article>
+  </BaseCard>
+</a>
+
+

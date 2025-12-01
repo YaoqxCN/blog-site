@@ -3,7 +3,6 @@ import type { Page } from "../types";
 import PaginationArrow from "./shared/PaginationArrow.astro";
 import PaginationNumber from "./shared/PaginationNumber.astro";
 import PaginationDropdown from "./shared/PaginationDropdown.astro";
-import { t } from "i18next";
 
 interface Props {
   page: Page;
@@ -19,7 +18,7 @@ const { page, totalPages, pageLinks, baseUrl } = Astro.props;
 ---
 
 <div class="flex justify-between items-center gap-2 fade-in-up">
-  <PaginationArrow direction="prev" href={page.url.prev} label={t("label.prevPage")} />
+  <PaginationArrow direction="prev" href={page.url.prev} label="Previous" />
 
   <div class:list={["flex gap-1", totalPages > 3 && "join"]}>
     {
@@ -39,5 +38,5 @@ const { page, totalPages, pageLinks, baseUrl } = Astro.props;
     }
   </div>
 
-  <PaginationArrow direction="next" href={page.url.next} label={t("label.nextPage")} />
+  <PaginationArrow direction="next" href={page.url.next} label="Next" />
 </div>
