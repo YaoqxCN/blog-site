@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+import MainCard from "@/components/MainCard.astro";
+import LinkCard from "@/components/mdx/LinkCard.astro";
+import FriendCard from "@/components/mdx/FriendCard.astro";
+---
+
+<BaseLayout title="Friends">
+  <MainCard
+    title="Friends"
+    description="志同道合的朋友们"
+    textOverlay="FRIENDS"
+    infoIcon="lucide:link"
+  >
+    <div class="space-y-10">
+      <!-- Friends Section -->
+      <section>
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <Icon name="lucide:users" class="w-6 h-6 text-primary" />
+          <span>友情链接</span>
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <FriendCard
+            name="Maoziyu"
+            avatar="https://github.com/Maoziyu0416.png"
+            description=""
+            url="https://github.com/Maoziyu0416"
+            type="friend"
+          />
+          <FriendCard
+            name="SunMaple"
+            avatar="https://github.com/EveSunMaple.png"
+            description="热爱技术，喜欢记录生活中的点点滴滴。"
+            url="https://saroprock.com"
+            type="friend"
+          />
+        </div>
+      </section>
+
+      <div class="divider my-8">
+        <Icon name="lucide:heart" class="w-10 h-10 text-primary" />
+      </div>
+    </div>
+  </MainCard>
+</BaseLayout>

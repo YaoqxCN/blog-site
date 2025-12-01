@@ -1,0 +1,94 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+import MainCard from "@/components/MainCard.astro";
+import FeatureCard from "@/components/mdx/FeatureCard.astro";
+import GitHubStats from "@/components/mdx/GitHubStats.astro";
+---
+
+<BaseLayout title="Home" image="index.jpg">
+  <MainCard
+    title="Welcome"
+    description="保持你的决心"
+    infoIcon="lucide:leaf"
+    image=/index.jpg
+  >
+    <div class="space-y-8">
+      <!-- Hero Section -->
+      <section class="py-6">
+        <div class="flex flex-col items-center text-center">
+          <h1
+            class="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-loose"
+          >
+            🌟 Arc的小站
+          </h1>
+          <p class="text-xl text-base-content/80 max-w-3xl mb-8">
+            欢迎来到这片存留着我所喜所做的静谧之地
+          </p>
+          <div class="flex flex-wrap gap-4 justify-center">
+            <a href="/blog" class="btn btn-primary gap-2 btn-shine-effect">
+              <Icon name="lucide:book-open" class="w-5 h-5" />
+              <span>我的文章</span>
+            </a>
+            <a href="https://github.com/YaoqxCN" target="_blank" class="btn btn-outline gap-2">
+              <Icon name="lucide:github" class="w-5 h-5" />
+              <span>在 GitHub 上找到我</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <p>这里几乎没有人会来，但是如果你读到了这段字，很高兴见到你！去其他地方逛逛吧</p>
+
+      <div class="divider my-8">
+        <Icon name="lucide:feather" class="w-10 h-10 text-primary" />
+      </div>
+
+      <section class="py-6">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <Icon name="lucide:star" class="w-6 h-6 text-primary" />
+          <span>关于我</span>
+        </h2>
+        <p>
+            这里是一位14岁的初中生，生活于江苏南京。
+            总是想做点什么却不知做什么，做了很多又觉什么都没做。谨以此站记录这或许虚无或许充实的生活。
+        </p>
+      </section>
+
+      <!-- Features Section -->
+      <section class="py-6">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <Icon name="lucide:sparkles" class="w-6 h-6 text-primary" />
+          <span>我的爱好</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <FeatureCard
+            title="技术"
+            icon="lucide:code"
+            color="oklch(0.7 0.2 30)"
+            description="喜欢钻研关于电脑的各方面技能，但是发现学习能力已经不如以前了"
+          />
+
+          <FeatureCard
+            title="音乐"
+            icon="lucide:music"
+            color="oklch(0.65 0.2 280)"
+            description="音乐能使灵魂与灵魂他自身产生的共鸣，好的音乐是对心灵的救赎"
+          />
+
+          <FeatureCard
+            title="科学/科幻"
+            icon="lucide:star"
+            color="oklch(0.6 0.2 160)"
+            description="星空与宇宙是浪漫的，数学亦是如此。数学到底是宇宙的真相，还是只能无限逼近真相的工具呢"
+          />
+        </div>
+      </section>
+
+      <!-- Quick Start -->
+      
+      </section>
+    </div>
+  </MainCard>
+</BaseLayout>
