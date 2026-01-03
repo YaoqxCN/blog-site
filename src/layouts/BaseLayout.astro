@@ -49,6 +49,7 @@ const { title, image, headings = [], showTOC = false, isIndexed = true } = Astro
   </head>
 
   <body class="flex flex-col min-h-screen" {...isIndexed ? { "data-pagefind-body": true } : {}}>
+    <canvas id="star-sky"></canvas>
     <Navbar />
 
     <div class="max-w-6xl mx-auto w-full flex-grow">
@@ -108,6 +109,186 @@ const { title, image, headings = [], showTOC = false, isIndexed = true } = Astro
       });
     </script>
 
+    <script is:inline>
+      (() => {
+        const DPR = Math.max(window.devicePixelRatio || 1, 1);
+        const STAR_COUNT = 180;
+        const SHOOTING_CHANCE = 0.002;
+        const SHOOTING_LIFE = 100;
+        let stars = [];
+        let shootings = [];
+        let animationId = null;
+        let isInitialized = false;
+        let canvas = null;
+        let ctx = null;
+
+        const getTheme = () => {
+          return document.documentElement.getAttribute("data-theme-type") || "dark";
+        };
+
+        const getStarColor = () => {
+          const theme = getTheme();
+          if (theme === "light") {
+            return "rgba(255,255,255,0.65)"; // 白色星星
+          } else {
+            return "rgba(255,255,255,0.65)"; // 白色星星
+          }
+        };
+
+        const getShootingColor = (alpha) => {
+          const theme = getTheme();
+          if (theme === "light") {
+            return `rgba(255,255,255,${alpha})`;
+          } else {
+            return `rgba(255,255,255,${alpha})`;
+          }
+        };
+
+        const updateBodyBg = () => {
+          const theme = getTheme();
+          if (theme === "light") {
+            document.body.style.background = "#e8f4f8"; // 浅蓝色背景
+          } else {
+            document.body.style.background = "#04060f"; // 深色背景
+          }
+        };
+
+        const resize = () => {
+          if (!canvas) return;
+          const { innerWidth, innerHeight } = window;
+          canvas.width = innerWidth * DPR;
+          canvas.height = innerHeight * DPR;
+          canvas.style.width = `${innerWidth}px`;
+          canvas.style.height = `${innerHeight}px`;
+          ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        };
+
+        const initStars = () => {
+          stars = Array.from({ length: STAR_COUNT }, () => ({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            r: Math.random() * 0.8 + 0.6, // 更小的星星：0.4 ~ 1.2 px
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: (Math.random() - 0.5) * 0.25,
+            tw: Math.random() * 0.8 + 0.3,
+          }));
+          shootings = [];
+        };
+
+        const addShootingStar = () => {
+          const startX = Math.random() * window.innerWidth;
+          const startY = Math.random() * window.innerHeight * 0.3;
+          const speed = 5 + Math.random() * 2.5;
+          shootings.push({
+            x: startX,
+            y: startY,
+            vx: -speed,
+            vy: speed * 0.4,
+            life: SHOOTING_LIFE,
+            len: 100 + Math.random() * 60,
+          });
+        };
+
+        const drawStar = (s) => {
+          const twinkle = s.r + Math.sin(performance.now() * s.tw * 0.003) * 0.25;
+          ctx.beginPath();
+          ctx.fillStyle = getStarColor();
+          ctx.arc(s.x, s.y, Math.max(0.3, twinkle), 0, Math.PI * 2);
+          ctx.fill();
+        };
+
+        const drawShooting = (m) => {
+          const alpha = Math.max(0, m.life / SHOOTING_LIFE);
+          const tailX = m.x + m.vx * -m.len * 0.01;
+          const tailY = m.y + m.vy * -m.len * 0.01;
+          const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+          grad.addColorStop(0, getShootingColor(alpha));
+          grad.addColorStop(1, "rgba(255,255,255,0)");
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(m.x, m.y);
+          ctx.lineTo(tailX, tailY);
+          ctx.stroke();
+        };
+
+        const loop = () => {
+          ctx.save();
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.restore();
+
+          for (const s of stars) {
+            s.x += s.vx;
+            s.y += s.vy;
+            if (s.x < -5) s.x = window.innerWidth + 5;
+            if (s.x > window.innerWidth + 5) s.x = -5;
+            if (s.y < -5) s.y = window.innerHeight + 5;
+            if (s.y > window.innerHeight + 5) s.y = -5;
+            drawStar(s);
+          }
+
+          if (Math.random() < SHOOTING_CHANCE) addShootingStar();
+          shootings = shootings.filter((m) => m.life > 0);
+          for (const m of shootings) {
+            m.x += m.vx;
+            m.y += m.vy;
+            m.life -= 1;
+            drawShooting(m);
+          }
+
+          animationId = requestAnimationFrame(loop);
+        };
+
+        const initialize = () => {
+          // 每次初始化时重新获取 canvas 元素
+          canvas = document.getElementById("star-sky");
+          if (!canvas || canvas.tagName !== "CANVAS") return;
+          
+          ctx = canvas.getContext("2d");
+          if (!ctx) return;
+
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+          resize();
+          initStars();
+          updateBodyBg();
+          loop();
+          isInitialized = true;
+        };
+
+        // 立即初始化星空
+        initialize();
+
+        window.addEventListener("resize", () => {
+          resize();
+          initStars();
+        });
+
+        // 监听主题变化
+        const observer = new MutationObserver(() => {
+          updateBodyBg();
+        });
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["data-theme-type"],
+        });
+
+        // 监听 astro 页面切换时重新初始化星空
+        // 同时监听多个事件以确保在任何情况下都能重新初始化
+        const reinitStarSky = () => {
+          requestAnimationFrame(() => {
+            initialize();
+          });
+        };
+
+        document.addEventListener("astro:after-swap", reinitStarSky);
+        document.addEventListener("astro:page-load", reinitStarSky);
+      })();
+    </script>
+
     <style is:inline>
       .btn-copy {
         position: relative;
@@ -133,3 +314,9 @@ const { title, image, headings = [], showTOC = false, isIndexed = true } = Astro
     </style>
   </body>
 </html>
+
+
+
+
+
+

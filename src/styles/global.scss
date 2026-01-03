@@ -18,6 +18,35 @@ html {
   @apply scroll-smooth;
 }
 
+body {
+  background: #04060f;
+  color: inherit;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease;
+}
+
+[data-theme-type="light"] body {
+  background: #e8f4f8;
+}
+
+#star-sky {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent;
+  mix-blend-mode: screen;
+}
+
+/* 保证内容在星空画布之上 */
+body > :not(#star-sky) {
+  position: relative;
+  z-index: 1;
+}
+
 kbd {
   @apply kbd;
 }

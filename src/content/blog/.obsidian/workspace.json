@@ -104,9 +104,21 @@
               "icon": "lucide-file",
               "title": "2025-01-27"
             }
+          },
+          {
+            "id": "dc2d198253bfb8eb",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.10.6"
+              },
+              "icon": "lucide-book-up",
+              "title": "版本说明 1.10.6"
+            }
           }
         ],
-        "currentTab": 6
+        "currentTab": 7
       }
     ],
     "direction": "vertical"
@@ -241,6 +253,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:创建新数据库": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -249,7 +262,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "8c7d38a3baf82faf",
+  "active": "dc2d198253bfb8eb",
   "lastOpenFiles": [
     "2024-09-04.md",
     "2024-08-21.md",

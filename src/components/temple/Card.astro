@@ -4,6 +4,9 @@ import type { CardProps } from "@interfaces/data";
 const { class: className = "" } = Astro.props as CardProps;
 ---
 
-<div class={`bg-base-100 rounded-xl shadow-lg w-full ${className}`}>
+<div class={`bg-base-100/90 border border-base-content/5 shadow-xl rounded-xl w-full ${className}`}>
   <slot />
 </div>
+
+
+
