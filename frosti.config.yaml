@@ -59,11 +59,6 @@ site:
       href: /friend
       svg: "material-symbols:supervisor-account-outline-rounded"
       target: _self
-    - id: contact
-      text: 邮箱
-      href: "mailto:contact.1064245198@qq.com"
-      target: _blank # 在新标签页打开
-      svg: "material-symbols:attach-email-outline-rounded"
 
 # 用户的个人信息
 user:
@@ -80,6 +75,10 @@ user:
         ariaLabel: BiliBili
         title: BiliBili
         svg: "ri:bilibili-line"
+      - href: "mailto:contact.1064245198@qq.com"
+        ariaLabel: Email
+        title: 邮箱
+        svg: "ri:mail-line"
   footer:
     social:
       - href: "https://github.com/YaoqxCN"
