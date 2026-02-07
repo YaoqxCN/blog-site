@@ -2,16 +2,14 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
 /**
- * 获取所有博客文章并根据环境过滤草稿
+ * 获取所有博客文章并过滤草稿
  * @returns 博客文章集合
  */
 export async function getAllPosts(): Promise<CollectionEntry<"blog">[]> {
   const allBlogPosts = await getCollection("blog");
 
-  // 在生产环境中过滤掉草稿文章
-  return import.meta.env.PROD
-    ? allBlogPosts.filter((post: CollectionEntry<"blog">) => !post.data.draft)
-    : allBlogPosts;
+  // 过滤掉草稿文章
+  return allBlogPosts.filter((post: CollectionEntry<"blog">) => !post.data.draft);
 }
 
 /**
